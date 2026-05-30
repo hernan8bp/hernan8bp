@@ -1,37 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <title>Hernán 8BP Catálogo</title>
+  <meta charset="UTF-8">
+  <title>Hernán 8bp catálogo</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
-    body{font-family:Arial;padding:20px}
-    table{width:100%;border-collapse:collapse}
-    th,td{border:1px solid #ccc;padding:10px}
-    th{background:#f5f5f5}
+    body{
+      font-family: Arial;
+      padding:20px;
+      background:#111;
+      color:white;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      background:#222;
+    }
+    th,td{
+      border:1px solid #555;
+      padding:12px;
+      text-align:left;
+    }
+    th{
+      background:#000;
+    }
   </style>
 </head>
 <body>
-  <h1>Hernán 8BP Catálogo</h1>
-  <table>
+
+<h1>Hernán 8bp catálogo</h1>
+
+<table>
+  <thead>
     <tr>
       <th>ID</th>
       <th>Descripción</th>
-      <th>Precio ₲</th>
+      <th>Precio Gs</th>
       <th>Precio USD</th>
     </tr>
-    <tr>
-      <td>504.333.333.4</td>
-      <td>Google Play login +1 cue max</td>
-      <td>₲ 130.000</td>
-      <td>$20</td>
+  </thead>
+  <tbody id="tabla-productos"></tbody>
+</table>
+
+<script>
+const supabase = window.supabase.createClient(
+  'https://jprztekarmdexaqlxjhs.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impwcnp0ZWthcm1kZXhhcWx4amhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNDkyNDAsImV4cCI6MjA5NTcyNTI0MH0.rDrmMW0pamcbdbZwkxxUcIi-sV0UQCa75IqwxqPbDz8'
+);
+
+async function cargarProductos() {
+  const { data, error } = await supabase
+    .from('productos')
+    .select('*');
+
+  const tabla = document.getElementById('tabla-productos');
+
+  data.forEach(p => {
+    tabla.innerHTML += `
+      <tr>
+        <td>${p.id_producto}</td>
+        <td>${p.descripcion}</td>
+        <td>${p.precio_gs}</td>
+        <td>${p.precio_usd}</td>
       </tr>
-    <tr>
-      <td>504.555.555.4</td>
-      <td>Google Play login</td>
-      <td>₲ 100.000</td>
-      <td>$15</td>
-    </tr>
-    </tr>
-  </table>
+    `;
+  });
+}
+
+cargarProductos();
+</script>
+
 </body>
 </html>
-
